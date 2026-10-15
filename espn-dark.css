@@ -98,6 +98,15 @@ html body :is(#global-scoreboard, section.HeaderScoreboard) :not(:hover) {
   color: #454647 !important;
 }
 
+/*
+ * Legacy nav labels (NCAAF, NFL, ... Watch, Fantasy) are pure white. Match the
+ * scores strip text. The nav is double-inverted, so this value is what shows.
+ * The hovered item and its dropdown keep ESPN's own colours.
+ */
+nav#global-nav ul.espn-en > li:not(:hover) span.link-text:not(.submenu-wrapper *) {
+  color: #bab9b8 !important;
+}
+
 /* A filter creates a stacking context; keep dropdowns above the sub-nav. */
 .Site__Header .Nav__Dropdown {
   z-index: 1000007 !important;
