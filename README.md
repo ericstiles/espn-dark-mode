@@ -18,6 +18,13 @@ Click the round ◐ button in the bottom-left corner of any ESPN page. The choic
 is remembered (in that site's `localStorage`, so each espn.com subdomain keeps
 its own). Click it again to turn dark mode back on.
 
+From the keyboard:
+
+- **Alt+Shift+D** (Option+Shift+D on a Mac) toggles from anywhere on the page,
+  except while typing in a text field.
+- The button is the first Tab stop: after the page loads (or from the address
+  bar), press **Tab** once, then **Enter** or **Space**.
+
 To remove it entirely, toggle or remove "ESPN Dark Mode" on `chrome://extensions`.
 
 The button works because every rule in `espn-dark.css` sits inside

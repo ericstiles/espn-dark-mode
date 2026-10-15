@@ -35,8 +35,15 @@
   opacity: 0.6 !important;
 }
 
-#espnDarkToggle:hover {
+#espnDarkToggle:hover,
+#espnDarkToggle:focus-visible {
   opacity: 1 !important;
+}
+
+/* all: initial drops the focus ring; give keyboard users one back. */
+#espnDarkToggle:focus-visible {
+  outline: 2px solid #3772df !important;
+  outline-offset: 2px !important;
 }
 
 @scope (html:not(.espn-dark-off)) {
