@@ -176,6 +176,14 @@ nav#global-nav {
 }
 
 /*
+ * Game page tabs (Gamecast / Recap / Box Score ...) under the strip. It is a
+ * Nav__Secondary too, but outside .Site__Header, so the sub-nav rule misses it.
+ */
+.Nav__Secondary.NavSecondary--GamePackage {
+  background-color: #dcdcde !important;
+}
+
+/*
  * Drop the team-colour glows behind the game strip logos. Each glow is sized
  * by width: var(--glowBackground-width, 150px), and ESPN sets that variable
  * once, on the panel inside .Gamestrip__Container; the glows (hashed classes)
