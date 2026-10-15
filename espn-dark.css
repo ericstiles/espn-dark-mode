@@ -108,13 +108,29 @@ nav#global-nav ul.espn-en > li:not(:hover) span.link-text:not(.submenu-wrapper *
 }
 
 /*
- * NCAAF dropdown: sidebar-card grey. The wrapper is flipped three times, so the
- * same pre-inversion value as the cards applies. Its inner <ul> paints its own
- * white background, so it needs the colour too.
+ * All nav dropdowns: a shade darker than the sidebar cards (#e1e1e3 renders
+ * as roughly #1e1e1c). Main-nav panels (.submenu-wrapper,
+ * .Nav__Dropdown__Wrapper) are flipped three times and sport sub-nav panels
+ * once; both odd, so pre-inversion values work as they do for the cards.
+ * The scores strip's "Top Events" league menu is included too. The
+ * inner <ul>s paint their own white background, so they need it too.
  */
-#submenu-sportsmenuncaaf,
-#submenu-sportsmenuncaaf > ul {
-  background-color: #dcdcde !important;
+nav#global-nav .submenu-wrapper,
+nav#global-nav .submenu-wrapper ul,
+#global-nav-secondary li.has-sub > div,
+#global-nav-secondary li.has-sub > div ul,
+.Site__Header .Nav__Dropdown__Wrapper,
+#global-scoreboard .league-nav-desktop > ul {
+  background-color: #e1e1e3 !important;
+}
+
+/*
+ * The filter on #global-nav traps its dropdowns in the nav's own layer, under
+ * the sport sub-nav (z-index 1000042). Lift the nav just above it.
+ */
+nav#global-nav {
+  position: relative !important;
+  z-index: 1000043 !important;
 }
 
 /*
@@ -126,9 +142,26 @@ nav#global-nav ul.espn-en > li:not(:hover) span.link-text:not(.submenu-wrapper *
   background-color: #dcdcde !important;
 }
 
-/* Legacy sport sub-nav (NFL / Home / Scores ... on /nfl/ etc.): sidebar-card grey. */
+/*
+ * Legacy sport sub-nav (NFL / Home / Scores ... on /nfl/ etc.): sidebar-card grey.
+ * The line under the header is ESPN's own box-shadow on this element, not a
+ * border; the second shadow mirrors it onto the top edge.
+ */
 #global-nav-secondary {
   background-color: #dcdcde !important;
+  box-shadow:
+    rgba(0, 0, 0, 0.3) 0 4px 2px -2px,
+    rgba(0, 0, 0, 0.3) 0 -4px 2px -2px !important;
+}
+
+/*
+ * Right column text already has the left column's colour; its story and video
+ * titles are semi-bold, which reads brighter. Regular weight everywhere except
+ * the section headers (Top Headlines, Top Videos, Trending Now), which stay
+ * bold like the left column's headers.
+ */
+section.col-three :not(header h2, header h2 *) {
+  font-weight: 400 !important;
 }
 
 /* A filter creates a stacking context; keep dropdowns above the sub-nav. */
