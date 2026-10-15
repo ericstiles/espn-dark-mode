@@ -126,6 +126,11 @@ nav#global-nav ul.espn-en > li:not(:hover) span.link-text:not(.submenu-wrapper *
   background-color: #dcdcde !important;
 }
 
+/* Legacy sport sub-nav (NFL / Home / Scores ... on /nfl/ etc.): sidebar-card grey. */
+#global-nav-secondary {
+  background-color: #dcdcde !important;
+}
+
 /* A filter creates a stacking context; keep dropdowns above the sub-nav. */
 .Site__Header .Nav__Dropdown {
   z-index: 1000007 !important;
