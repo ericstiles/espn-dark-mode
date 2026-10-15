@@ -165,6 +165,17 @@ nav#global-nav {
 }
 
 /*
+ * Game page strip (teams, score, Gamecast / Preview tabs): sidebar-card grey.
+ * The section itself is transparent; the white comes from an unnamed panel
+ * (hashed class) inside .Gamestrip__Container, so target it through that.
+ */
+#fittPageContainer > div.pageContent > div > div > div.GamepackageDock > section,
+#fittPageContainer > div.pageContent > div > div > div.GamepackageDock > section
+  .Gamestrip__Container > div {
+  background-color: #dcdcde !important;
+}
+
+/*
  * Right column text already has the left column's colour; its story and video
  * titles are semi-bold, which reads brighter. Regular weight everywhere except
  * the section headers (Top Headlines, Top Videos, Trending Now), which stay
