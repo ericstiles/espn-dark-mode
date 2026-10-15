@@ -48,13 +48,13 @@ section:is(.col-one, .col-three) .mediaList__link {
 
 /*
  * Top scores strip: its tiles are white, which inverts to pure black. Use the
- * page's own background colour (#edeef0) so the strip matches the backdrop.
+ * same grey as the side-column cards (#dcdcde) so the strip matches them.
  * Legacy layout: #global-scoreboard. Newer layout: section.HeaderScoreboard.
  */
 :is(#global-scoreboard, section.HeaderScoreboard),
-#global-scoreboard :is(.scores-carousel, .cscore),
+#global-scoreboard :is(.scores-carousel, .cscore, .scoreLabel_content, .cscore_header-links),
 section.HeaderScoreboard .ScoreCell {
-  background-color: #edeef0 !important;
+  background-color: #dcdcde !important;
 }
 
 /* Strip text is already the sidebar colour, but bold; regular weight matches. */
@@ -88,6 +88,14 @@ body :not(:hover):not(
     .photo-credit
   ) {
   color: #1d1e1f !important;
+}
+
+/*
+ * Scores strip text a shade dimmer than the rest (#454647 renders as roughly
+ * #bab9b8). Must stay below the rule above: same specificity, so order wins.
+ */
+html body :is(#global-scoreboard, section.HeaderScoreboard) :not(:hover) {
+  color: #454647 !important;
 }
 
 /* A filter creates a stacking context; keep dropdowns above the sub-nav. */
