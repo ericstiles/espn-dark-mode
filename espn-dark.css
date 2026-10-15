@@ -269,6 +269,17 @@ section.col-three :not(header h2, header h2 *) {
   font-weight: 400 !important;
 }
 
+/*
+ * Card shadows: ESPN's dark drop shadows (0 1px 4px / 0 2px 8px, black at
+ * 16-24%) invert to a light halo around each card. Drop them on the homepage
+ * news feed and in all three game page columns; the grey cards stand out from
+ * the backdrop on their own.
+ */
+#news-feed :is(.contentItem__content, .contentItem__padding),
+.GamepackageWrapper :is(.PageLayout__Main, aside.PageLayout__LeftAside, aside.PageLayout__RightAside) section {
+  box-shadow: none !important;
+}
+
 /* A filter creates a stacking context; keep dropdowns above the sub-nav. */
 .Site__Header .Nav__Dropdown {
   z-index: 1000007 !important;
