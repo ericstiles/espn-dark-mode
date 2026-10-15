@@ -176,6 +176,17 @@ nav#global-nav {
 }
 
 /*
+ * Drop the team-colour glows behind the game strip logos. Each glow is sized
+ * by width: var(--glowBackground-width, 150px), and ESPN sets that variable
+ * once, on the panel inside .Gamestrip__Container; the glows (hashed classes)
+ * inherit it. Overriding it there reaches every glow on every game page. auto
+ * collapses them to nothing, since they are absolutely placed and empty.
+ */
+.Gamestrip__Container > div {
+  --glowBackground-width: auto !important;
+}
+
+/*
  * Game page left sidebar (Game Leaders etc.): sidebar-card grey for its cards.
  * The aside itself is transparent; painting it would fill the gaps between
  * the cards and hide their rounded corners, so paint the card sections.
