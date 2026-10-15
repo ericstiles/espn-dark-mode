@@ -107,6 +107,22 @@ nav#global-nav ul.espn-en > li:not(:hover) span.link-text:not(.submenu-wrapper *
   color: #bab9b8 !important;
 }
 
+/*
+ * NCAAF dropdown: sidebar-card grey. The wrapper is flipped three times, so the
+ * same pre-inversion value as the cards applies. Its inner <ul> paints its own
+ * white background, so it needs the colour too.
+ */
+#submenu-sportsmenuncaaf,
+#submenu-sportsmenuncaaf > ul {
+  background-color: #dcdcde !important;
+}
+
+/* Centre news feed: sidebar-card grey for the column and the white cards in it. */
+#news-feed,
+#news-feed :is(.contentItem, .contentItem__content, .scoreCollection, .headlineStack) {
+  background-color: #dcdcde !important;
+}
+
 /* A filter creates a stacking context; keep dropdowns above the sub-nav. */
 .Site__Header .Nav__Dropdown {
   z-index: 1000007 !important;
