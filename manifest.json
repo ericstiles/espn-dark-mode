@@ -1,12 +1,19 @@
 {
   "manifest_version": 3,
   "name": "ESPN Dark Mode",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Dark theme for espn.com.",
   "content_scripts": [
     {
-      "matches": ["*://*.espn.com/*"],
-      "css": ["espn-dark.css"],
+      "matches": [
+        "*://*.espn.com/*"
+      ],
+      "css": [
+        "espn-dark.css"
+      ],
+      "js": [
+        "toggle.js"
+      ],
       "run_at": "document_start"
     }
   ]

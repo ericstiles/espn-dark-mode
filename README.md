@@ -1,8 +1,8 @@
 # ESPN Dark Mode
 
 A tiny Chrome extension that gives espn.com a dark theme. It is one stylesheet
-(`espn-dark.css`) injected on every `*.espn.com` page; it requests no permissions
-and runs no JavaScript.
+(`espn-dark.css`) plus a small script (`toggle.js`) for the on/off button,
+injected on every `*.espn.com` page; it requests no permissions.
 
 ## Install
 
@@ -14,7 +14,16 @@ Reload any open ESPN tabs.
 
 ## Turn it off
 
-Toggle or remove "ESPN Dark Mode" on `chrome://extensions`.
+Click the round ◐ button in the bottom-left corner of any ESPN page. The choice
+is remembered (in that site's `localStorage`, so each espn.com subdomain keeps
+its own). Click it again to turn dark mode back on.
+
+To remove it entirely, toggle or remove "ESPN Dark Mode" on `chrome://extensions`.
+
+The button works because every rule in `espn-dark.css` sits inside
+`@scope (html:not(.espn-dark-off))`; the script only adds or removes that class.
+New rules must go inside the `@scope` block, and must write `<html>` itself as
+`:scope`, not `html`.
 
 ## Adjusting
 

@@ -8,10 +8,49 @@
  *
  * ESPN serves two layouts: the legacy one (homepage, nav#global-nav) and the
  * newer one (scoreboards etc., .Site__Header). Both are covered below.
+ *
+ * Every rule sits inside one @scope so the page button (toggle.js) can switch
+ * it all off by putting .espn-dark-off on <html>. @scope adds no specificity,
+ * so the rules below behave as they would unwrapped. Inside it, selectors only
+ * match below <html>, so <html> itself is written :scope. Not indented, to
+ * keep the rules readable.
  */
 
-/* 1. Flip the page. The white canvas becomes the dark backdrop. */
-html {
+/* Toggle button: outside the scope so it shows in both modes. */
+#espnDarkToggle {
+  all: initial !important;
+  position: fixed !important;
+  left: 16px !important;
+  bottom: 16px !important;
+  z-index: 2147483647 !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  background: #222 !important;
+  color: #eee !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4) !important;
+  font: 20px/36px sans-serif !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  opacity: 0.6 !important;
+}
+
+#espnDarkToggle:hover {
+  opacity: 1 !important;
+}
+
+@scope (html:not(.espn-dark-off)) {
+
+/* Keep the button looking the same on the inverted page. */
+#espnDarkToggle {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/*
+ * 1. Flip the page. The white canvas becomes the dark backdrop.
+ * :scope is <html>; a plain html selector here would only look below it.
+ */
+:scope {
   filter: invert(1) hue-rotate(180deg) !important;
   background: #fff !important;
 }
@@ -92,9 +131,10 @@ body :not(:hover):not(
 
 /*
  * Scores strip text a shade dimmer than the rest (#454647 renders as roughly
- * #bab9b8). Must stay below the rule above: same specificity, so order wins.
+ * #bab9b8). :scope (<html>) gives it one class more than the rule above, so
+ * it wins outright; keep it below that rule anyway.
  */
-html body :is(#global-scoreboard, section.HeaderScoreboard) :not(:hover) {
+:scope body :is(#global-scoreboard, section.HeaderScoreboard) :not(:hover) {
   color: #454647 !important;
 }
 
@@ -241,3 +281,5 @@ section.col-three :not(header h2, header h2 *) {
   :is(img, video, iframe, canvas):not(.Nav__Secondary *, .Nav__Dropdown__Wrapper *) {
   filter: none !important;
 }
+
+} /* @scope */
