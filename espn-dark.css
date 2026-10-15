@@ -144,12 +144,21 @@ nav#global-nav {
 }
 
 /*
- * Legacy sport sub-nav (NFL / Home / Scores ... on /nfl/ etc.): sidebar-card grey.
- * The line under the header is ESPN's own box-shadow on this element, not a
- * border; the second shadow mirrors it onto the top edge.
+ * Sport sub-nav (NCAAF / Home / Scores ...): sidebar-card grey on every page,
+ * in both layouts. Legacy (#global-nav-secondary, /college-football/ etc.) is
+ * flipped once and newer (.Nav__Secondary, /college-football/teams etc.) three
+ * times; both odd, so the same pre-inversion value works for each.
+ */
+#global-nav-secondary,
+.Site__Header .Nav__Secondary {
+  background-color: #dcdcde !important;
+}
+
+/*
+ * The line under the legacy sub-nav is ESPN's own box-shadow on this element,
+ * not a border; the second shadow mirrors it onto the top edge.
  */
 #global-nav-secondary {
-  background-color: #dcdcde !important;
   box-shadow:
     rgba(0, 0, 0, 0.3) 0 4px 2px -2px,
     rgba(0, 0, 0, 0.3) 0 -4px 2px -2px !important;
