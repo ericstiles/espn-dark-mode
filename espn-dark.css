@@ -176,6 +176,18 @@ nav#global-nav {
 }
 
 /*
+ * Game page left sidebar (Game Leaders etc.): sidebar-card grey for its cards.
+ * The aside itself is transparent; painting it would fill the gaps between
+ * the cards and hide their rounded corners, so paint the card sections.
+ */
+#fittPageContainer > div.pageContent > div > div > div:nth-child(3) > div > section > div:nth-child(3) > div > aside.PageLayout__LeftAside
+  > section,
+#fittPageContainer > div.pageContent > div > div > div:nth-child(3) > div > section > div:nth-child(3) > div > aside.PageLayout__LeftAside
+  > div > section {
+  background-color: #dcdcde !important;
+}
+
+/*
  * Right column text already has the left column's colour; its story and video
  * titles are semi-bold, which reads brighter. Regular weight everywhere except
  * the section headers (Top Headlines, Top Videos, Trending Now), which stay
