@@ -199,6 +199,19 @@ nav#global-nav {
 }
 
 /*
+ * Game page centre column and right sidebar: sidebar-card grey for every card.
+ * The columns and the wrappers in them (.DataVizWrapper, .Standings) are
+ * transparent; the white is the cards inside, many with only hashed classes,
+ * so match them as sections (cards and the rows in them) rather than by
+ * class. Painting the wrappers instead would fill the gaps between cards and
+ * hide their rounded corners. Story teasers are contentItems, not sections.
+ */
+.GamepackageWrapper :is(.PageLayout__Main, aside.PageLayout__RightAside)
+  :is(section, .Media__Caption, .contentItem__content, .contentItem__contentWrapper) {
+  background-color: #dcdcde !important;
+}
+
+/*
  * Right column text already has the left column's colour; its story and video
  * titles are semi-bold, which reads brighter. Regular weight everywhere except
  * the section headers (Top Headlines, Top Videos, Trending Now), which stay
