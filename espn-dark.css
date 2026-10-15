@@ -1,0 +1,104 @@
+/*
+ * ESPN dark mode.
+ *
+ * Inverts the whole page, then inverts a second time anything that should keep
+ * its original colours: media, and the parts of ESPN that are already dark.
+ * Light panels nested inside those dark parts (dropdowns, the sport sub-nav)
+ * get a third pass so they end up dark too.
+ *
+ * ESPN serves two layouts: the legacy one (homepage, nav#global-nav) and the
+ * newer one (scoreboards etc., .Site__Header). Both are covered below.
+ */
+
+/* 1. Flip the page. The white canvas becomes the dark backdrop. */
+html {
+  filter: invert(1) hue-rotate(180deg) !important;
+  background: #fff !important;
+}
+
+/* 2. Restore media and natively dark regions. */
+img,
+video,
+iframe,
+canvas,
+nav#global-nav,
+.Site__Header,
+article.dtc-upsell,
+article.fantasySignupV2,
+/* 3. Light panels inside a restored region: flip them back to dark. */
+nav#global-nav .submenu-wrapper:not(.submenu-wrapper .submenu-wrapper),
+.Site__Header .Nav__Secondary,
+.Site__Header .Nav__Dropdown__Wrapper {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/*
+ * Homepage side-column cards are white, which inverts to pure black. Give them
+ * a light grey instead so they end up a shade lighter than the page backdrop.
+ * (Colours here are pre-inversion: #dcdcde renders as roughly #232321.)
+ */
+section:is(.col-one, .col-three)
+  > :is(article.sub-module, .module, .headlineStack, div:not([class]), div[class=""]):not(.dtc-upsell, .fantasySignupV2) {
+  background-color: #dcdcde !important;
+}
+
+section:is(.col-one, .col-three) .mediaList__link {
+  background-color: transparent !important;
+}
+
+/*
+ * Top scores strip: its tiles are white, which inverts to pure black. Use the
+ * page's own background colour (#edeef0) so the strip matches the backdrop.
+ * Legacy layout: #global-scoreboard. Newer layout: section.HeaderScoreboard.
+ */
+:is(#global-scoreboard, section.HeaderScoreboard),
+#global-scoreboard :is(.scores-carousel, .cscore),
+section.HeaderScoreboard .ScoreCell {
+  background-color: #edeef0 !important;
+}
+
+/* Strip text is already the sidebar colour, but bold; regular weight matches. */
+:is(#global-scoreboard, section.HeaderScoreboard) * {
+  font-weight: 400 !important;
+}
+
+/*
+ * Top Headlines links are pure black at medium weight, which inverts to a
+ * brighter white than the left-column quick links. Match the left column.
+ */
+section.col-three .headlineStack a {
+  font-weight: 400 !important;
+}
+
+section.col-three .headlineStack a:not(:hover) {
+  color: #1d1e1f !important;
+}
+
+/*
+ * One text colour everywhere: #1d1e1f, which renders as a soft off-white.
+ * Skips the natively dark regions (their text is already light), photo credits
+ * that sit on top of images, and whatever is being hovered so hover colours
+ * still show. Delete this rule to get ESPN's own text hierarchy back.
+ */
+body :not(:hover):not(
+    nav#global-nav, nav#global-nav *,
+    .Site__Header, .Site__Header *,
+    .dtc-upsell, .dtc-upsell *,
+    .fantasySignupV2, .fantasySignupV2 *,
+    .photo-credit
+  ) {
+  color: #1d1e1f !important;
+}
+
+/* A filter creates a stacking context; keep dropdowns above the sub-nav. */
+.Site__Header .Nav__Dropdown {
+  z-index: 1000007 !important;
+}
+
+/* Media directly inside a restored region is already correct; leave it alone. */
+:is(nav#global-nav, article.dtc-upsell, article.fantasySignupV2)
+  :is(img, video, iframe, canvas):not(.submenu-wrapper *),
+.Site__Header
+  :is(img, video, iframe, canvas):not(.Nav__Secondary *, .Nav__Dropdown__Wrapper *) {
+  filter: none !important;
+}
