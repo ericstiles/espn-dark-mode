@@ -112,7 +112,7 @@ nav#global-nav ul.espn-en > li:not(:hover) span.link-text:not(.submenu-wrapper *
  * as roughly #1e1e1c). Main-nav panels (.submenu-wrapper,
  * .Nav__Dropdown__Wrapper) are flipped three times and sport sub-nav panels
  * once; both odd, so pre-inversion values work as they do for the cards.
- * The scores strip's "Top Events" league menu is included too. The
+ * The scores strip's league menu ("Top Events") and date menu ("Week 6") too. The
  * inner <ul>s paint their own white background, so they need it too.
  */
 nav#global-nav .submenu-wrapper,
@@ -120,7 +120,8 @@ nav#global-nav .submenu-wrapper ul,
 #global-nav-secondary li.has-sub > div,
 #global-nav-secondary li.has-sub > div ul,
 .Site__Header .Nav__Dropdown__Wrapper,
-#global-scoreboard .league-nav-desktop > ul {
+#global-scoreboard .league-nav-desktop > ul,
+#global-scoreboard .scores-date-pick ul {
   background-color: #e1e1e3 !important;
 }
 
