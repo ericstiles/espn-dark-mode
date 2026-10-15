@@ -117,8 +117,11 @@ nav#global-nav ul.espn-en > li:not(:hover) span.link-text:not(.submenu-wrapper *
   background-color: #dcdcde !important;
 }
 
-/* Centre news feed: sidebar-card grey for the column and the white cards in it. */
-#news-feed,
+/*
+ * Centre news feed: sidebar-card grey for the white cards in it. Don't paint
+ * #news-feed itself: that fills the gaps between cards and hides their
+ * rounded corners.
+ */
 #news-feed :is(.contentItem, .contentItem__content, .scoreCollection, .headlineStack) {
   background-color: #dcdcde !important;
 }
