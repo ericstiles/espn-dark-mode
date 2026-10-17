@@ -214,6 +214,15 @@ body.story :is(#article-feed article.article, #news-feed :is(.container-wrapper,
 }
 
 /*
+ * Legacy main nav (#global-nav): the same grey as the sub-nav under it. The
+ * nav is flipped twice, so it takes the rendered value: #dcdcde flipped once
+ * comes out at #232325.
+ */
+nav#global-nav {
+  background-color: #232325 !important;
+}
+
+/*
  * The line under the legacy sub-nav is ESPN's own box-shadow on this element,
  * not a border; the second shadow mirrors it onto the top edge.
  */
