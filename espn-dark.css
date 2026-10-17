@@ -157,6 +157,15 @@ nav#global-nav ul.espn-en > li:not(:hover) span.link-text:not(.submenu-wrapper *
 }
 
 /*
+ * Search magnifying glass, right of the nav: an icon-font glyph in ::after,
+ * white, which inverts to black. It sits in #global-header outside the nav, so
+ * it is flipped once; #454647 comes out as the nav labels' #bab9b8.
+ */
+#global-header li.search #global-search-trigger::after {
+  color: #454647 !important;
+}
+
+/*
  * All nav dropdowns: a shade darker than the sidebar cards (#e1e1e3 renders
  * as roughly #1e1e1c). Main-nav panels (.submenu-wrapper,
  * .Nav__Dropdown__Wrapper) are flipped three times and sport sub-nav panels
