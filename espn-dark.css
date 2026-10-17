@@ -69,6 +69,8 @@ iframe,
 canvas,
 nav#global-nav,
 .Site__Header,
+/* Legacy ESPN logo: white letters on a red panel (the h2's ::before/::after). */
+#global-header .logo-header,
 article.dtc-upsell,
 article.fantasySignupV2,
 /* 3. Light panels inside a restored region: flip them back to dark. */
