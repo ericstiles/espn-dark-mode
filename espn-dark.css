@@ -1,10 +1,15 @@
 /*
  * ESPN dark mode.
  *
- * Inverts the whole page, then inverts a second time anything that should keep
- * its original colours: media, and the parts of ESPN that are already dark.
- * Light panels nested inside those dark parts (dropdowns, the sport sub-nav)
- * get a third pass so they end up dark too.
+ * Inverts the page, then inverts a second time anything that should keep its
+ * original colours: media, and the parts of ESPN that are already dark. Light
+ * panels nested inside those dark parts (dropdowns, the sport sub-nav) get a
+ * third pass so they end up dark too.
+ *
+ * The site header (main nav, logo, sport sub-nav) is the exception: it is not
+ * inverted at all, only everything around it, so the main nav keeps ESPN's
+ * exact colours. A double inversion can't do that: it dulls saturated colours
+ * like the logo's red. Pages without the header invert as a whole.
  *
  * ESPN serves two layouts: the legacy one (homepage, nav#global-nav) and the
  * newer one (scoreboards etc., .Site__Header). Both are covered below.
@@ -48,17 +53,34 @@
 
 @scope (html:not(.espn-dark-off)) {
 
-/* Keep the button looking the same on the inverted page. */
-#espnDarkToggle {
+/*
+ * 1. Flip the page.
+ *
+ * With the site header (legacy #global-header, newer .Site__Header__Wrapper):
+ * flip every element beside the path from <body> down to the header, so the
+ * header itself is left alone. Neither header sits inside the other's path,
+ * so one rule covers both layouts. The path itself is not flipped, so it
+ * takes the dark backdrop directly: ESPN's #edeef0 flipped, #101113.
+ *
+ * Without it: flip <html> whole. The white canvas becomes the backdrop, and
+ * the button needs flipping back.
+ *
+ * :scope is <html>; a plain html selector here would only look below it.
+ */
+:scope:has(:is(#global-header, .Site__Header__Wrapper))
+  :has(:is(#global-header, .Site__Header__Wrapper))
+  > :not(:is(#global-header, .Site__Header__Wrapper), :has(:is(#global-header, .Site__Header__Wrapper)), #espnDarkToggle, script, style),
+:scope:not(:has(:is(#global-header, .Site__Header__Wrapper))),
+:scope:not(:has(:is(#global-header, .Site__Header__Wrapper))) #espnDarkToggle {
   filter: invert(1) hue-rotate(180deg) !important;
 }
 
-/*
- * 1. Flip the page. The white canvas becomes the dark backdrop.
- * :scope is <html>; a plain html selector here would only look below it.
- */
-:scope {
-  filter: invert(1) hue-rotate(180deg) !important;
+:scope:has(:is(#global-header, .Site__Header__Wrapper)),
+:scope:has(:is(#global-header, .Site__Header__Wrapper)) :is(body, #global-viewport) {
+  background: #101113 !important;
+}
+
+:scope:not(:has(:is(#global-header, .Site__Header__Wrapper))) {
   background: #fff !important;
 }
 
@@ -67,13 +89,13 @@ img,
 video,
 iframe,
 canvas,
-nav#global-nav,
-.Site__Header,
-/* Legacy ESPN logo: white letters on a red panel (the h2's ::before/::after). */
-#global-header .logo-header,
 article.dtc-upsell,
 article.fantasySignupV2,
-/* 3. Light panels inside a restored region: flip them back to dark. */
+/*
+ * 3. Light panels in the unflipped header: flip them to dark. Each is flipped
+ * once, like the rest of the page, so pre-inversion colours work as usual.
+ */
+#global-nav-secondary,
 nav#global-nav .submenu-wrapper:not(.submenu-wrapper .submenu-wrapper),
 .Site__Header .Nav__Secondary,
 .Site__Header .Nav__Dropdown__Wrapper {
@@ -124,13 +146,15 @@ section.col-three .headlineStack a:not(:hover) {
 
 /*
  * One text colour everywhere: #1d1e1f, which renders as a soft off-white.
- * Skips the natively dark regions (their text is already light), photo credits
- * that sit on top of images, and whatever is being hovered so hover colours
- * still show. Delete this rule to get ESPN's own text hierarchy back.
+ * Skips the natively dark regions (their text is already light), the header
+ * apart from the legacy sub-nav (unflipped, so it keeps ESPN's colours), photo
+ * credits that sit on top of images, and whatever is being hovered so hover
+ * colours still show. Delete this rule to get ESPN's own text hierarchy back.
  */
 body :not(:hover):not(
-    nav#global-nav, nav#global-nav *,
-    .Site__Header, .Site__Header *,
+    #global-header > :not(#global-nav-secondary),
+    #global-header > :not(#global-nav-secondary) *,
+    .Site__Header__Wrapper, .Site__Header__Wrapper *,
     .dtc-upsell, .dtc-upsell *,
     .fantasySignupV2, .fantasySignupV2 *,
     .photo-credit
@@ -148,30 +172,10 @@ body :not(:hover):not(
 }
 
 /*
- * Legacy nav labels (NCAAF, NFL, ... Watch, Fantasy) are pure white. Match the
- * scores strip text. The nav is double-inverted, so this value is what shows.
- * The hovered item and its dropdown keep ESPN's own colours.
- */
-nav#global-nav ul.espn-en > li:not(:hover) span.link-text:not(.submenu-wrapper *) {
-  color: #bab9b8 !important;
-}
-
-/*
- * Search magnifying glass and account icon, right of the nav: icon-font
- * glyphs in ::after, white, which invert to black. They sit in #global-header
- * outside the nav, so they are flipped once; #454647 comes out as the nav
- * labels' #bab9b8.
- */
-#global-header li.search #global-search-trigger::after,
-#global-header li.user #global-user-trigger::after {
-  color: #454647 !important;
-}
-
-/*
  * All nav dropdowns: a shade darker than the sidebar cards (#e1e1e3 renders
  * as roughly #1e1e1c). Main-nav panels (.submenu-wrapper,
- * .Nav__Dropdown__Wrapper) are flipped three times and sport sub-nav panels
- * once; both odd, so pre-inversion values work as they do for the cards.
+ * .Nav__Dropdown__Wrapper) and sport sub-nav panels are each flipped once, so
+ * pre-inversion values work as they do for the cards.
  * The scores strip's league menu ("Top Events") and date menu ("Week 6") too. The
  * inner <ul>s paint their own white background, so they need it too.
  */
@@ -186,8 +190,8 @@ nav#global-nav .submenu-wrapper ul,
 }
 
 /*
- * The filter on #global-nav traps its dropdowns in the nav's own layer, under
- * the sport sub-nav (z-index 1000042). Lift the nav just above it.
+ * The filter on the sport sub-nav (z-index 1000042) puts it in its own layer,
+ * over the main nav's dropdowns. Lift the main nav just above it.
  */
 nav#global-nav {
   position: relative !important;
@@ -214,23 +218,35 @@ body.story :is(#article-feed article.article, #news-feed :is(.container-wrapper,
 }
 
 /*
+ * Newer-layout pages built on .page-container (scoreboard, standings,
+ * schedule, rankings, stats, FPI, team pages): sidebar-card grey for the
+ * cards. The container is transparent; painting it would fill the gaps between
+ * cards and hide their rounded corners. Inside the cards, several pieces paint
+ * their own white (.bg-clr-white is ESPN's utility class): team page story
+ * items, the schedule list and its rows, and on the scoreboard the team score
+ * cells, video list items and the odds strip's outer panel (hashed class, so
+ * reached through .OddsStripWrapper).
+ */
+#fittPageContainer .page-container :is(
+    section.Card, article.contentItem, .bg-clr-white, .Schedule__Game,
+    .ScoreboardScoreCell, .MediaList__item, .OddsStripWrapper > div
+  ) {
+  background-color: #dcdcde !important;
+}
+
+/* Odds strip (Spread / Total): the dropdown grey, a shade darker, so it still reads as a strip. */
+#fittPageContainer .page-container .OddsStripWrapper > div > div {
+  background-color: #e1e1e3 !important;
+}
+
+/*
  * Sport sub-nav (NCAAF / Home / Scores ...): sidebar-card grey on every page,
- * in both layouts. Legacy (#global-nav-secondary, /college-football/ etc.) is
- * flipped once and newer (.Nav__Secondary, /college-football/teams etc.) three
- * times; both odd, so the same pre-inversion value works for each.
+ * in both layouts: legacy #global-nav-secondary (/college-football/ etc.) and
+ * newer .Nav__Secondary (/college-football/teams etc.). Each is flipped once.
  */
 #global-nav-secondary,
 .Site__Header .Nav__Secondary {
   background-color: #dcdcde !important;
-}
-
-/*
- * Legacy main nav (#global-nav): the same grey as the sub-nav under it. The
- * nav is flipped twice, so it takes the rendered value: #dcdcde flipped once
- * comes out at #232325.
- */
-nav#global-nav {
-  background-color: #232325 !important;
 }
 
 /*
@@ -324,11 +340,16 @@ section.col-three :not(header h2, header h2 *) {
   z-index: 1000007 !important;
 }
 
-/* Media directly inside a restored region is already correct; leave it alone. */
-:is(nav#global-nav, article.dtc-upsell, article.fantasySignupV2)
-  :is(img, video, iframe, canvas):not(.submenu-wrapper *),
-.Site__Header
-  :is(img, video, iframe, canvas):not(.Nav__Secondary *, .Nav__Dropdown__Wrapper *) {
+/*
+ * Media directly inside a restored region, or in the unflipped header outside
+ * its flipped panels, is already correct; leave it alone.
+ */
+:is(article.dtc-upsell, article.fantasySignupV2)
+  :is(img, video, iframe, canvas),
+:is(#global-header, .Site__Header__Wrapper)
+  :is(img, video, iframe, canvas):not(
+    #global-nav-secondary *, .submenu-wrapper *, .Nav__Secondary *, .Nav__Dropdown__Wrapper *
+  ) {
   filter: none !important;
 }
 
