@@ -157,11 +157,13 @@ nav#global-nav ul.espn-en > li:not(:hover) span.link-text:not(.submenu-wrapper *
 }
 
 /*
- * Search magnifying glass, right of the nav: an icon-font glyph in ::after,
- * white, which inverts to black. It sits in #global-header outside the nav, so
- * it is flipped once; #454647 comes out as the nav labels' #bab9b8.
+ * Search magnifying glass and account icon, right of the nav: icon-font
+ * glyphs in ::after, white, which invert to black. They sit in #global-header
+ * outside the nav, so they are flipped once; #454647 comes out as the nav
+ * labels' #bab9b8.
  */
-#global-header li.search #global-search-trigger::after {
+#global-header li.search #global-search-trigger::after,
+#global-header li.user #global-user-trigger::after {
   color: #454647 !important;
 }
 
