@@ -193,6 +193,16 @@ nav#global-nav {
 }
 
 /*
+ * Story pages (body.story): the article and the left news feed are white and
+ * off-white, which invert to pure black. Sidebar-card grey for both. The feed
+ * column (#news-feed) is transparent; its list (.container-wrapper) and each
+ * entry (.news-feed-item) paint the off-white.
+ */
+body.story :is(#article-feed article.article, #news-feed :is(.container-wrapper, .news-feed-item)) {
+  background-color: #dcdcde !important;
+}
+
+/*
  * Sport sub-nav (NCAAF / Home / Scores ...): sidebar-card grey on every page,
  * in both layouts. Legacy (#global-nav-secondary, /college-football/ etc.) is
  * flipped once and newer (.Nav__Secondary, /college-football/teams etc.) three
