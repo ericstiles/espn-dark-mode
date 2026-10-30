@@ -148,10 +148,12 @@ section.col-three .headlineStack a:not(:hover) {
  * One text colour everywhere: #1d1e1f, which renders as a soft off-white.
  * Skips the natively dark regions (their text is already light), the header
  * apart from the legacy sub-nav (unflipped, so it keeps ESPN's colours), photo
- * credits that sit on top of images, and whatever is being hovered so hover
- * colours still show. Delete this rule to get ESPN's own text hierarchy back.
+ * credits that sit on top of images, the toggle button (always light on its
+ * own dark circle), and whatever is being hovered so hover colours still show.
+ * Delete this rule to get ESPN's own text hierarchy back.
  */
 body :not(:hover):not(
+    #espnDarkToggle,
     #global-header > :not(#global-nav-secondary),
     #global-header > :not(#global-nav-secondary) *,
     .Site__Header__Wrapper, .Site__Header__Wrapper *,
@@ -351,6 +353,15 @@ section.col-three :not(header h2, header h2 *) {
     #global-nav-secondary *, .submenu-wrapper *, .Nav__Secondary *, .Nav__Dropdown__Wrapper *
   ) {
   filter: none !important;
+}
+
+/*
+ * The Scroll To Top extension's arrow (lower right) rests at an inline opacity
+ * of 0.5, which is murky on the dark backdrop. Keep it at its hover brightness.
+ * Only the arrow: its sibling icons stay hidden until the arrow is hovered.
+ */
+#pratikabuSTTArrowUp {
+  opacity: 1 !important;
 }
 
 } /* @scope */
